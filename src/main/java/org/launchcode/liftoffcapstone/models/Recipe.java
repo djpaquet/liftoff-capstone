@@ -18,6 +18,8 @@ public class Recipe {
 
     private String instructions;
 
+    private String measurementUnit;
+
     public Recipe(String name, int yield, String ingredientName, int ingredientAmount, String instructions ){
         this.name = name;
         this.yield = yield;
@@ -71,6 +73,14 @@ public class Recipe {
 
     public void setIngredientAmount(int ingredientAmount) {
         this.ingredientAmount = ingredientAmount;
+    }
+
+    public String getMeasurementUnit() {
+        return measurementUnit;
+    }
+
+    public void setMeasurementUnit(String measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public String getIngredientDescription() {

@@ -1,25 +1,68 @@
 package org.launchcode.liftoffcapstone.Controllers;
 
 
+import org.launchcode.liftoffcapstone.models.Category;
+import org.launchcode.liftoffcapstone.models.Ingredients;
 import org.launchcode.liftoffcapstone.models.Recipe;
+import org.launchcode.liftoffcapstone.models.data.CategoryDao;
+import org.launchcode.liftoffcapstone.models.data.IngredientsDao;
+import org.launchcode.liftoffcapstone.models.data.RecipeDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
+
 
 @Controller
 @RequestMapping(value= "recipe")
 
 public class RecipeController {
 
-    @RequestMapping(value= "", method = RequestMethod.GET)
+    @Autowired
+    private RecipeDao recipeDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private IngredientsDao ingredientsDao;
+
+
+
+    @RequestMapping(value= "add", method = RequestMethod.GET)
     public String add(Model model){
         model.addAttribute(new Recipe());
+        model.addAttribute(new Ingredients());
+        model.addAttribute(new Category());
         model.addAttribute("title", "Add New Recipe");
         return "recipe/add";
 
     }
+
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public String processAddRecipe(@ModelAttribute @Valid Recipe newRecipe, @ModelAttribute @Valid Ingredients ingredients, @ModelAttribute @Valid Category category, Errors errors, Model model){
+
+        if (errors.hasErrors()){
+            model.addAttribute("title", "Add New Recipe");
+            return "recipe/add";
+        }
+
+        ingredientsDao.save(ingredients);
+        newRecipe.setCategory(category);
+        recipeDao.save(newRecipe);
+        return "cheese/view_recipe";
+
+
+    }
+
+   // @RequestMapping(value = "view", method = RequestMethod.GET)
+    //public String viewRecipe(@ModelAttribute Recipe())
 
 
 

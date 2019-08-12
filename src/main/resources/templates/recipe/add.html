@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:fragment="fragments :: head">
+<head th:replace="fragments :: head">
+
+
 </head>
 
 <body class="container">
@@ -14,29 +16,54 @@
     </div>
 
     <div class="form-group">
+        <label th:for="category">Category</label>
+        <input class="form-control" th:object="${category}" th:type="text" />
+    </div>
+
+    <div class="form-group">
         <label th:for="yield">Yield</label>
-
-        <input id="yield" class="form-control" th:type="text" th:field="*{yield}" />
-        <label th:for="yieldType" class="form-control">Yield Type</label>
-        <input id="yieldType" class="form-control" th:type="text" th:field="*{yieldType}" />
-
+        <div class="row">
+            <div class="col">
+                <input class="form-control" th:type="text" th:field="*{yield}" />
+            </div>
+            <div class="col">
+                <input id="yieldType" class="form-control" th:type="text" th:field="*{yieldType}" placeholder="cup, oz, people, lb, etc"/>
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <h3>Ingredients</h3>
-        <label th:for="ingredientName" >Ingredient</label>
-        <input id="ingredientName" class="form-control" th:type="text" th:field="*{ingredientName}" />
-        <label th:for="ingredientAmount">Amount</label>
-        <input id="ingredientAmount" class="form-control" th:type="text" th:field="*{ingredientAmount}" />
-        <label th:for="measurementUnit">Measurement</label>
-        <input id="measurementUnit" class="form-control" th:type="text" th:field="*{measurementUnit}" />
+        <div class="row">
+            <div class="col">
+                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{name}" placeholder="Name"/>
+            </div>
+            <div class="col-sm-2">
+                <input id="ingredientAmount" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientAmount}" />
+            </div>
+            <div class="col">
+                <input id="measurementUnit" class="form-control" th:type="text" th:object="${ingredients}"  th:field="*{amountMeasurement}" placeholder="cup, oz, each, etc"/>
+            </div>
+            <div class="col">
+                <input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description"/>
+
+            </div>
+        </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="instruction">
         <label th:for="instructions">Instructions</label>
-        <input id="instructions" th:type="text-area" th:field="*{instructions}" />
-
+        <input class="form-control" id="instructions" th:type="text-area" th:field="*{instructions}" />
+        <input th:type="button" value="Add Instructions" id="addInstructions"/>
     </div>
 
+    <div class="form-group" id="notes">
+        <label th:for="notes">Notes:</label>
+        <input class="form-control" th:type="text-area" th:field="*{notes}" />
+    </div>
+
+
+    <input th:type="submit" value="submit" />
 </form>
 
 </body>
+
 </html>

@@ -1,31 +1,44 @@
 package org.launchcode.liftoffcapstone.models;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class Recipe {
 
+    @Id
+    @GeneratedValue
     private int id;
 
+    @NotNull
+    @Size(min = 3, max = 15)
     private String name;
+
 
     private int yield;
 
     private String yieldType;
 
-    private String ingredientName;
-
-    private int ingredientAmount;
-
-    private String ingredientDescription;
-
     private String instructions;
 
-    private String measurementUnit;
+    private String notes;
 
-    public Recipe(String name, int yield, String ingredientName, int ingredientAmount, String instructions ){
+    @ManyToOne
+    public Category category;
+
+    @OneToMany
+    @JoinColumn(name = "ingredient_id")
+    private List<Ingredients> ingredients = new ArrayList<>();
+
+    public Recipe(String name, int yield, String yieldType, String notes, String instructions){
         this.name = name;
         this.yield = yield;
-        this.ingredientName = ingredientName;
-        this.ingredientAmount = ingredientAmount;
+        this.yieldType = yieldType;
         this.instructions = instructions;
+        this.notes = notes;
 
     }
 
@@ -59,38 +72,6 @@ public class Recipe {
         this.yieldType = yieldType;
     }
 
-    public String getIngredientName() {
-        return ingredientName;
-    }
-
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
-    }
-
-    public int getIngredientAmount() {
-        return ingredientAmount;
-    }
-
-    public void setIngredientAmount(int ingredientAmount) {
-        this.ingredientAmount = ingredientAmount;
-    }
-
-    public String getMeasurementUnit() {
-        return measurementUnit;
-    }
-
-    public void setMeasurementUnit(String measurementUnit) {
-        this.measurementUnit = measurementUnit;
-    }
-
-    public String getIngredientDescription() {
-        return ingredientDescription;
-    }
-
-    public void setIngredientDescription(String ingredientDescription) {
-        this.ingredientDescription = ingredientDescription;
-    }
-
     public String getInstructions() {
         return instructions;
     }
@@ -98,5 +79,30 @@ public class Recipe {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
+    public List<Ingredients> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredients> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
 
 }

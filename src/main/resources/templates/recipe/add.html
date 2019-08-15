@@ -10,18 +10,21 @@
 <h1 th:text="${title}">Title</h1>
 
 <form method="post" th:object="${recipe}"  style="max_width: 600px;">
-    <div class="form-group">
-        <label th:for="name">Name</label>
+    <fieldset class="form-group">
+    <div class="form-check">
+        <label class="form-check-label" th:for="name">Name</label>
         <input id="name" class="form-control" th:type="text" th:field="*{name}" name="name" />
+        <span th:error_recipe="*{name}" class="errors"></span>
     </div>
 
-    <div class="form-group">
-        <label th:for="category">Category</label>
-        <input class="form-control" th:object="${category}" th:type="text" />
+    <div class="form-check">
+        <label class="form-check-label" th:for="categoryName">Category</label>
+        <input class="form-control" th:object="${category}" th:type="text" th:field="*{categoryName}" name="categoryName" />
+<!--        <span th:errors="*{categoryName}" class="errors"></span>-->
     </div>
 
-    <div class="form-group">
-        <label th:for="yield">Yield</label>
+    <div class="form-check">
+        <label class="form-check-label" th:for="yield">Yield</label>
         <div class="row">
             <div class="col">
                 <input class="form-control" th:type="text" th:field="*{yield}" />
@@ -31,35 +34,44 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-check">
         <h3>Ingredients</h3>
         <div class="row">
-            <div class="col">
-                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{name}" placeholder="Name"/>
+            <div class="col" th:for="ingredientName">
+                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name"/>
+               <span th:error_ing="*{ingredientName}" class="errors"></span>-->
             </div>
             <div class="col-sm-2">
                 <input id="ingredientAmount" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientAmount}" />
+                <span th:error_ing="*{ingredientAmount}" class="errors"></span>
             </div>
             <div class="col">
                 <input id="measurementUnit" class="form-control" th:type="text" th:object="${ingredients}"  th:field="*{amountMeasurement}" placeholder="cup, oz, each, etc"/>
+                <span th:error-ing="*{ingredientAmount}" class="errors"></span>
             </div>
             <div class="col">
                 <input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description"/>
-
+                <span th:error_ing="*{ingredientDescription}" class="errors"></span>
             </div>
         </div>
-    </div>
-    <div class="form-group" id="instruction">
-        <label th:for="instructions">Instructions</label>
-        <input class="form-control" id="instructions" th:type="text-area" th:field="*{instructions}" />
-        <input th:type="button" value="Add Instructions" id="addInstructions"/>
+        <div align="right" >
+            <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="addIngredients"/>
+        </div>
     </div>
 
-    <div class="form-group" id="notes">
-        <label th:for="notes">Notes:</label>
+    <div class="form-check" id="instruction-area">
+        <label class="form-check-label" th:for="instructions">Instructions</label>
+        <input class="form-control" id="instruction" th:type="text-area" th:field="*{instructions}" />
+    </div>
+    <div align="right">
+        <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="addInstructions" />
+    </div>
+
+    <div class="form-check" id="notes">
+        <label class="form-check-label" th:for="notes">Notes:</label>
         <input class="form-control" th:type="text-area" th:field="*{notes}" />
     </div>
-
+    </fieldset>
 
     <input th:type="submit" value="submit" />
 </form>

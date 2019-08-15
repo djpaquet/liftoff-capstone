@@ -13,8 +13,8 @@ public class Recipe {
     @GeneratedValue
     private int id;
 
-    @NotNull
-    @Size(min = 3, max = 15)
+    @NotNull(message = "Please give your recipe a title!")
+    @Size(min=3)
     private String name;
 
 
@@ -29,8 +29,7 @@ public class Recipe {
     @ManyToOne
     public Category category;
 
-    @OneToMany
-    @JoinColumn(name = "ingredient_id")
+    @OneToMany(mappedBy = "recipe")
     private List<Ingredients> ingredients = new ArrayList<>();
 
     public Recipe(String name, int yield, String yieldType, String notes, String instructions){

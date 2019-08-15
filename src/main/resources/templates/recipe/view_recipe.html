@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head">
 </head>
-<body>
+<body class="container">
 
     <div>
         <h2 th:text="*{recipe.name}">Name</h2>
@@ -12,23 +12,32 @@
     <div>
         <ul class="list-inline">
             <li class="list-inline-item"><h4 th:text="*{recipe.yield}">Yield</h4></li>
-            <li class="list-inline-item"><h4 th:text="*{recipe.yieldType"></h4></li>
+            <li class="list-inline-item"><h4 th:text="*{recipe.yieldType}"></h4></li>
         </ul>
     </div>
 
     <table class="table table-borderless">
         <tbody>
-        <tr th:each="ingredient :: *{ingredients}">
-            <td th:text="ingredient.ingredientAmount"></td>
-            <td th:text="ingredient.amountMeasurement"></td>
-            <td th:text="ingredient.name"></td>
-            <td th:text="ingredient.description"></td>
+        <tr th:each="ingredient : *{ingredients}">
+            <td th:text="${ingredient.ingredientAmount}"></td>
+            <td th:text="${ingredient.amountMeasurement}"></td>
+            <td th:text="${ingredient.name}"></td>
+            <td th:text="${ingredient.ingredientDescription}"></td>
 
         </tr>
         </tbody>
     </table>
 
+    <div>
+        <ol th:each="instruction : *{instructions}">
+            <li th:text="*{instruction}"></li>
+        </ol>
+    </div>
 
+    <div>
+        <h4>Notes:</h4>
+        <p th:text="*{notes}"></p>
+    </div>
 
 
 </body>

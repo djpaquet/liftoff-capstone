@@ -15,16 +15,16 @@ public class Category {
     @GeneratedValue
     private int id;
 
-    @NotNull
+    @NotNull(message = "Name your category!")
     @Size(min = 3 , max = 15)
-    private String name;
+    private String categoryName;
 
     @OneToMany
     @JoinColumn(name = "category_id")
     private List<Recipe> recipes = new ArrayList<>();
 
-    public Category(String name){
-        this.name = name;
+    public Category(String categoryName){
+        this.categoryName = categoryName;
     }
 
     public Category(){}
@@ -33,12 +33,12 @@ public class Category {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public List<Recipe> getRecipes() {

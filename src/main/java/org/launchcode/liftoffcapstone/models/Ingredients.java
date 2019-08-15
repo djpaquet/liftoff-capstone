@@ -11,25 +11,28 @@ public class Ingredients {
     @GeneratedValue
     private int id;
 
-    @NotNull
-    @Size(min = 3, message = "Must enter an Ingredient")
-    private String name;
+    @NotNull(message = "What is this ingredients name?")
+    @Size(min = 2)
+    private String ingredientName;
 
     @NotNull(message = "Must enter an amount")
+//    @Size(min=1)
     private int ingredientAmount;
 
     @NotNull(message = "Must enter a measurement")
+    @Size(min=1)
     private String amountMeasurement;
 
     private String ingredientDescription;
 
 
     @ManyToOne
+    @JoinColumn(name= "recipe_Id")
     private Recipe recipe;
 
 
-    public Ingredients(String name, int ingredientAmount, String amountMeasurement, String ingredientDescription){
-        this.name = name;
+    public Ingredients(String ingredientName, int ingredientAmount, String amountMeasurement, String ingredientDescription){
+        this.ingredientName = ingredientName;
         this.ingredientAmount = ingredientAmount;
         this.amountMeasurement = amountMeasurement;
         this.ingredientDescription = ingredientDescription;
@@ -41,12 +44,12 @@ public class Ingredients {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getIngredientName() {
+        return ingredientName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
     }
 
     public int getIngredientAmount() {

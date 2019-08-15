@@ -1,14 +1,19 @@
 $(document).ready(function(){
-$('#addInstructions').click(function (e){
+$('#addInstructions').click(function (){
+
+
 
 event.preventDefault()
-$('#instruction').append('<div><input id="instructions" th:type="text-area" th:field="*{instructions}">'+
-'<input type="button" value="delete" /></ div>');
-}):
+$('#instruction-area').append('<input class="form-control" id="instruction" th:type="text-area" th:field="*{instructions}" />'+
+'<input class="btn btn-danger btn-sm" type="button" value="delete" id="delete" />');
+});
 
-$('body').on('click','#delete',function (e){
-    $(this).parent('div').remove();
+
+/*$('#delete').click(function (){
+$('#instruction-area').remove('<input class="form-control" id="instruction" th:type="text-area" th:field="*{instructions}" />)
+
+    });*/
+
 
 });
 
-});

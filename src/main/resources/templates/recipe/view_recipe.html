@@ -5,14 +5,14 @@
 <body class="container">
 
     <div>
-        <h2 th:text="*{recipe.name}">Name</h2>
-        <h3 th:text="*{category.name}">Category</h3>
+        <h2 th:text="${recipe.name}">Name</h2>
+        <h3 th:text="${category.categoryName}">Category</h3>
     </div>
 
     <div>
         <ul class="list-inline">
-            <li class="list-inline-item"><h4 th:text="*{recipe.yield}">Yield</h4></li>
-            <li class="list-inline-item"><h4 th:text="*{recipe.yieldType}"></h4></li>
+            <li class="list-inline-item"><h4 th:text="${recipe.yield}">Yield</h4></li>
+            <li class="list-inline-item"><h4 th:text="${recipe.yieldType}"></h4></li>
         </ul>
     </div>
 
@@ -21,7 +21,7 @@
         <tr th:each="ingredient : *{ingredients}">
             <td th:text="${ingredient.ingredientAmount}"></td>
             <td th:text="${ingredient.amountMeasurement}"></td>
-            <td th:text="${ingredient.name}"></td>
+            <td th:text="${ingredient.ingredientName}"></td>
             <td th:text="${ingredient.ingredientDescription}"></td>
 
         </tr>
@@ -29,14 +29,14 @@
     </table>
 
     <div>
-        <ol th:each="instruction : *{instructions}">
-            <li th:text="*{instruction}"></li>
+        <ol th:each="instruction : ${recipe.instructions}">
+            <li th:text="${instruction}"></li>
         </ol>
     </div>
 
     <div>
         <h4>Notes:</h4>
-        <p th:text="*{notes}"></p>
+        <p th:text="${recipe.notes}"></p>
     </div>
 
 

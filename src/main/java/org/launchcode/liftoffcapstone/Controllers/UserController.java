@@ -6,11 +6,17 @@ import org.launchcode.liftoffcapstone.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("user")
+
+
 public class UserController {
 
     @Autowired
@@ -20,10 +26,26 @@ public class UserController {
     public String sign_up(Model model){
         model.addAttribute(new User());
         model.addAttribute("title", "Sign up to get started!");
-        return "user/add";
+        return "user/sign-up";
     }
 
+    @RequestMapping(value="sign-up", method = RequestMethod.POST)
+    public String processSignUp(Model model, @ModelAttribute @Valid User user, String verifyPassword, Errors errors) {
 
+        if (!verifyPassword.equals(user.getPassword()) || errors.hasErrors()){
+            model.addAttribute("title", "Sign up to get started!");
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("email", user.getEmail());
+            model.addAttribute("error", "Passwords do not match!");
+            model.addAttribute("error", errors);
+            return "user/sign-up";
+
+        }else{
+            userDao.save(user);
+            return "/recipe/add";
+        }
+
+    }
 
 
 

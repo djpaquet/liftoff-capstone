@@ -51,24 +51,19 @@ public class RecipeController {
 
 
 
-        if (errors.hasErrors() | error_ing.hasErrors() | error_recipe.hasErrors()){
+        if (errors.hasErrors() || error_ing.hasErrors() || error_recipe.hasErrors()){
             model.addAttribute("title", "Add New Recipe");
             model.addAttribute("errors", errors);
             model.addAttribute("error_ing", error_ing);
             model.addAttribute("error_recipe", error_recipe);
             return "recipe/add";
+        }else {
+            categoryDao.save(category);
+            ingredientsDao.save(ingredients);
+            recipeDao.save(newRecipe);
+
+            return "recipe/view_recipe";
         }
-
-        /*if (category.equals(categoryDao.findAll())){
-            newRecipe.setCategory(category);
-        }*/
-
-        categoryDao.save(category);
-        ingredientsDao.save(ingredients);
-        recipeDao.save(newRecipe);
-
-        return "recipe/view_recipe";
-
 
     }
 

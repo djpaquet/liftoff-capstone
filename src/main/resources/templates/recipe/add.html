@@ -9,8 +9,8 @@
 
 <h1 th:text="${title}">Title</h1>
 
-<form method="post" th:object="${recipe}"  style="max_width: 600px;">
-    <fieldset class="form-group">
+<form method="post"  th:object="${recipe}"  >
+    <fieldset class="form-group" style="max_width: 600px;">
     <div class="form-check">
         <label class="form-check-label" th:for="name">Name</label>
         <input id="name" class="form-control" th:type="text" th:field="*{name}" name="name" />
@@ -36,35 +36,36 @@
     </div>
     <div class="form-check">
         <h3>Ingredients</h3>
-        <div class="row">
+        <div class="row" id="ingredient-area">
             <div class="col" th:for="ingredientName">
-                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name"/>
-               <span th:error_ing="*{ingredientName}" class="errors"></span>-->
+                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name" name="ingredientName"/>
+               <span th:error_ing="*{ingredientName}" class="errors"></span>
             </div>
             <div class="col-sm-2">
-                <input id="ingredientAmount" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientAmount}" />
+                <input id="ingredientAmount" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientAmount}" name="ingredientAmount" />
                 <span th:error_ing="*{ingredientAmount}" class="errors"></span>
             </div>
             <div class="col">
-                <input id="measurementUnit" class="form-control" th:type="text" th:object="${ingredients}"  th:field="*{amountMeasurement}" placeholder="cup, oz, each, etc"/>
+                <input id="measurementUnit" class="form-control" th:type="text" th:object="${ingredients}"  th:field="*{amountMeasurement}" placeholder="cup, oz, each, etc" name="measurementUnit"/>
                 <span th:error-ing="*{ingredientAmount}" class="errors"></span>
             </div>
             <div class="col">
-                <input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description"/>
+                <input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description" name="ingredientDescription"/>
                 <span th:error_ing="*{ingredientDescription}" class="errors"></span>
             </div>
         </div>
         <div align="right" >
-            <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="addIngredients"/>
+           <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add_ing_button" />
+            <input class="btn btn-danger btn-sm" th:type="button" value="Remove Ingredient" id="remove-ing-button" />
         </div>
     </div>
 
     <div class="form-check" id="instruction-area">
         <label class="form-check-label" th:for="instructions">Instructions</label>
-        <input class="form-control" id="instruction" th:type="text-area" th:field="*{instructions}" />
+        <input class="form-control" id="instruction" th:type="text-area" th:field="*{instructions}" name="instructions"/>
     </div>
     <div align="right">
-        <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="addInstructions" />
+       <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="addInstructions" />
     </div>
 
     <div class="form-check" id="notes">
@@ -76,6 +77,13 @@
     <input th:type="submit" value="submit" />
 </form>
 
+
+
 </body>
+
+<script th:src="@{https://code.jquery.com/jquery-3.4.1.js}"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous" ></script>
+<script th:src="@{/js/custom.js}" type="text/javascript"></script>
 
 </html>

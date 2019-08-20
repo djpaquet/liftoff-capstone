@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Recipe {
@@ -27,7 +28,7 @@ public class Recipe {
     private String notes;
 
     @ManyToOne
-    public Category category;
+    private Category category;
 
     @OneToMany(mappedBy = "recipe")
     private List<Ingredients> ingredients = new ArrayList<>();
@@ -103,5 +104,22 @@ public class Recipe {
         this.category = category;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Recipe)) return false;
+        Recipe recipe = (Recipe) o;
+        return getYield() == recipe.getYield() &&
+                getName().equals(recipe.getName()) &&
+                Objects.equals(getYieldType(), recipe.getYieldType()) &&
+                getInstructions().equals(recipe.getInstructions()) &&
+                getNotes().equals(recipe.getNotes()) &&
+                getCategory().equals(recipe.getCategory()) &&
+                getIngredients().equals(recipe.getIngredients());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getYield(), getYieldType(), getInstructions(), getNotes(), getCategory(), getIngredients());
+    }
 }

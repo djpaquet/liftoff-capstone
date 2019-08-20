@@ -4,21 +4,22 @@
 </head>
 <body class="container">
 
-    <div>
-        <h2 th:text="${recipe.name}">Name</h2>
-        <h3 th:text="${category.categoryName}">Category</h3>
-    </div>
+    <div class="card mb-3">
+        <h3 th:text="${recipe.name}" class="card-header">Name</h3>
+        <h5 th:text="${category.categoryName}" class="card-header">>Category</h5>
 
-    <div>
+
+    <div class="card-body">
         <ul class="list-inline">
             <li class="list-inline-item"><h4 th:text="${recipe.yield}">Yield</h4></li>
             <li class="list-inline-item"><h4 th:text="${recipe.yieldType}"></h4></li>
         </ul>
     </div>
 
-    <table class="table table-borderless">
+    <div class="card-body">
+        <table>
         <tbody>
-        <tr th:each="ingredient : *{ingredients}">
+        <tr  class="table-secondary" th:each="ingredient : *{ingredients}">
             <td th:text="${ingredient.ingredientAmount}"></td>
             <td th:text="${ingredient.amountMeasurement}"></td>
             <td th:text="${ingredient.ingredientName}"></td>
@@ -27,16 +28,17 @@
         </tr>
         </tbody>
     </table>
-
-    <div>
+    </div>
+    <div class="card-body">
         <ol th:each="instruction : ${recipe.instructions}">
             <li th:text="${instruction}"></li>
         </ol>
     </div>
 
-    <div>
+    <div class="card-body">
         <h4>Notes:</h4>
         <p th:text="${recipe.notes}"></p>
+    </div>
     </div>
 
 

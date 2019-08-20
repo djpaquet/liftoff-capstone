@@ -3,6 +3,7 @@ package org.launchcode.liftoffcapstone.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 public class Ingredients {
@@ -60,6 +61,10 @@ public class Ingredients {
         this.ingredientAmount = ingredientAmount;
     }
 
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
     public Recipe getRecipe() {
         return recipe;
     }
@@ -78,5 +83,23 @@ public class Ingredients {
 
     public void setIngredientDescription(String ingredientDescription) {
         this.ingredientDescription = ingredientDescription;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredients)) return false;
+        Ingredients that = (Ingredients) o;
+        return getId() == that.getId() &&
+                getIngredientAmount() == that.getIngredientAmount() &&
+                Objects.equals(getIngredientName(), that.getIngredientName()) &&
+                Objects.equals(getAmountMeasurement(), that.getAmountMeasurement()) &&
+                Objects.equals(getIngredientDescription(), that.getIngredientDescription()) &&
+                Objects.equals(getRecipe(), that.getRecipe());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getIngredientName(), getIngredientAmount(), getAmountMeasurement(), getIngredientDescription(), getRecipe());
     }
 }

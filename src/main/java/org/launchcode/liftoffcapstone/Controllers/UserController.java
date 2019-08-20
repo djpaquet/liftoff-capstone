@@ -1,7 +1,11 @@
 package org.launchcode.liftoffcapstone.Controllers;
 
 
+import org.launchcode.liftoffcapstone.models.Category;
+import org.launchcode.liftoffcapstone.models.Recipe;
 import org.launchcode.liftoffcapstone.models.User;
+import org.launchcode.liftoffcapstone.models.data.CategoryDao;
+import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.launchcode.liftoffcapstone.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("user")
@@ -21,6 +26,12 @@ public class UserController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private RecipeDao recipeDao;
 
     @RequestMapping(value = "sign-up", method = RequestMethod.GET)
     public String sign_up(Model model){
@@ -42,10 +53,23 @@ public class UserController {
 
         }else{
             userDao.save(user);
-            return "/recipe/add";
+            return "user/user_view";
         }
 
     }
+
+
+
+    @RequestMapping(value="user_view", method = RequestMethod.GET)
+    public String userView(Model model){
+
+
+        model.addAttribute("categories", categoryDao.findAll());
+
+        return "user/user_view";
+    }
+
+
 
 
 

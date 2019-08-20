@@ -3,11 +3,13 @@ package org.launchcode.liftoffcapstone.Controllers;
 
 import org.launchcode.liftoffcapstone.models.Category;
 import org.launchcode.liftoffcapstone.models.data.CategoryDao;
+import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,6 +22,9 @@ public class CategoryController {
 
     @Autowired
     CategoryDao categoryDao;
+
+    @Autowired
+    RecipeDao recipeDao;
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String addCategory(Model model){
@@ -39,5 +44,16 @@ public class CategoryController {
         categoryDao.save(category);
         //return recipe/add until build main view//
         return "recipe/add";
+    }
+
+    @RequestMapping(value="view_recipes/{categoryId}", method = RequestMethod.GET)
+    public String viewRecipes(Model model, @PathVariable int categoryId){
+
+        Category category = categoryDao.findOne(categoryId);
+
+        model.addAttribute("category", category);
+        model.addAttribute("title", category.getCategoryName());
+
+        return "category/view_recipes/" + category.getId();
     }
 }

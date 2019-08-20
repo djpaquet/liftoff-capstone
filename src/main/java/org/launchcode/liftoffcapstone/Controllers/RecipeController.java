@@ -15,6 +15,8 @@ import org.springframework.validation.Errors;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -57,14 +59,17 @@ public class RecipeController {
             model.addAttribute("error_ing", error_ing);
             model.addAttribute("error_recipe", error_recipe);
             return "recipe/add";
+        }else if(category.getCategoryName().equals(categoryDao.findAll())){
+                newRecipe.setCategory(category);
         }else {
             categoryDao.save(category);
-            ingredientsDao.save(ingredients);
-            recipeDao.save(newRecipe);
 
-            return "recipe/view_recipe";
         }
-
+        newRecipe.setCategory(category);
+        ingredientsDao.save(ingredients);
+        ingredients.setRecipe(newRecipe);
+        recipeDao.save(newRecipe);
+        return "recipe/view_recipe";
     }
 
 

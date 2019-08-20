@@ -38,19 +38,20 @@
         <h3>Ingredients</h3>
         <div class="row" id="ingredient-area">
             <div class="col" th:for="ingredientName">
-                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name" name="ingredientName"/>
+
+                <input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name" name="ingredientName[0]"/>
                <span th:error_ing="*{ingredientName}" class="errors"></span>
             </div>
             <div class="col-sm-2">
-                <input id="ingredientAmount" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientAmount}" name="ingredientAmount" />
+                <input id="ingredientAmount" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientAmount}" name="ingredientAmount[0]" />
                 <span th:error_ing="*{ingredientAmount}" class="errors"></span>
             </div>
             <div class="col">
-                <input id="measurementUnit" class="form-control" th:type="text" th:object="${ingredients}"  th:field="*{amountMeasurement}" placeholder="cup, oz, each, etc" name="measurementUnit"/>
+                <input id="measurementUnit" class="form-control" th:type="text" th:object="${ingredients}"  th:field="*{amountMeasurement}" placeholder="cup, oz, each, etc" name="measurementUnit[0]"/>
                 <span th:error-ing="*{ingredientAmount}" class="errors"></span>
             </div>
             <div class="col">
-                <input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description" name="ingredientDescription"/>
+                <input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description" name="ingredientDescription[0]" />
                 <span th:error_ing="*{ingredientDescription}" class="errors"></span>
             </div>
         </div>

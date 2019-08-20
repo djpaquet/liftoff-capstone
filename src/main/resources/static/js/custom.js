@@ -1,7 +1,8 @@
 var max_fields      = 20;
 var wrapper         = $("#ingredient-area");
 var add_button      = $("#add_ing_button");
-var total_fields = 1;
+var total_fields = 0;
+var index = 0
 
 $(add_button).click(function(e){
     e.preventDefault();
@@ -9,8 +10,8 @@ $(add_button).click(function(e){
 
         total_fields++;
 
-        $(wrapper).after('<div class="col" th:for="ingredientName">'+
-                                           '<input class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name" name="ingredientName"/>'+
+        $(wrapper).append('<div class="row" id="ingredient-area">'+'<div class="col" th:for="ingredientName">'+
+                                           '<input id="ingredientName" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientName}" placeholder="Name" name="ingredientName"/>'+
                                           '<span th:error_ing="*{ingredientName}" class="errors"></span>'+
                                        '</div>'+
                                        '<div class="col-sm-2">'+
@@ -25,10 +26,12 @@ $(add_button).click(function(e){
                                            '<input id="ingredientDescription" class="form-control" th:type="text" th:object="${ingredients}" th:field="*{ingredientDescription}" placeholder="Description" name="ingredientDescription"/>'+
                                            '<span th:error_ing="*{ingredientDescription}" class="errors"></span>'+
                                        '</div>'+'</div>')};
+
+
 });
    $(wrapper).on("click",".remove_ing_button", function(e){
         e.preventDefault();
- $(this).parent('div').remove(); //remove inout field
+ $(this).parent('<div class="row" id="ingredient-area">').remove(); //remove inout field
     x--; //inout field decrement
     });
 

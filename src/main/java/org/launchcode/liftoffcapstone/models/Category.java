@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Category {
@@ -43,5 +44,19 @@ public class Category {
 
     public List<Recipe> getRecipes() {
         return recipes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return Objects.equals(getCategoryName(), category.getCategoryName()) &&
+                Objects.equals(getRecipes(), category.getRecipes());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCategoryName(), getRecipes());
     }
 }

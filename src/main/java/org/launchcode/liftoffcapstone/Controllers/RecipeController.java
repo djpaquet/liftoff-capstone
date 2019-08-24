@@ -1,11 +1,12 @@
 package org.launchcode.liftoffcapstone.Controllers;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.launchcode.liftoffcapstone.models.MeasurementUnit;
+import org.launchcode.liftoffcapstone.models.forms.IngredientList;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.launchcode.liftoffcapstone.models.Category;
-import org.launchcode.liftoffcapstone.models.Ingredients;
+import org.launchcode.liftoffcapstone.models.Ingredient;
 import org.launchcode.liftoffcapstone.models.Recipe;
 import org.launchcode.liftoffcapstone.models.data.CategoryDao;
 import org.launchcode.liftoffcapstone.models.data.IngredientsDao;
@@ -13,9 +14,7 @@ import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 
-import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,39 +36,43 @@ public class RecipeController {
 
     @RequestMapping(value= "add", method = RequestMethod.GET)
     public String add(Model model){
-        model.addAttribute(new Recipe());
-        model.addAttribute(new Ingredients());
-        model.addAttribute(new Category());
+
+
+
         model.addAttribute("title", "Add New Recipe");
+        model.addAttribute(new Recipe());
+        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("measurementUnit", MeasurementUnit.values());
+
+
+
+
+
         return "recipe/add";
 
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddRecipe(Model model, @ModelAttribute @Valid Recipe newRecipe, Errors error_recipe,
-                                   @ModelAttribute @Valid Ingredients ingredients, Errors error_ing,
-                                   @ModelAttribute @Valid Category category,
-                                   Errors errors){
+    public String processAddRecipe(@ModelAttribute @Valid Recipe recipe, Errors errors, @ModelAttribute List<IngredientList> ingredientList
+                                   , @RequestParam int categoryId, Model model){
 
 
+        Category cat = categoryDao.findOne(categoryId);
 
-        if (errors.hasErrors() || error_ing.hasErrors() || error_recipe.hasErrors()){
+
+        if (errors.hasErrors()) {
             model.addAttribute("title", "Add New Recipe");
+            model.addAttribute("measurementUnit", MeasurementUnit.values());
             model.addAttribute("errors", errors);
-            model.addAttribute("error_ing", error_ing);
-            model.addAttribute("error_recipe", error_recipe);
-            return "recipe/add";
-        }else if(category.getCategoryName().equals(categoryDao.findAll())){
-                newRecipe.setCategory(category);
-        }else {
-            categoryDao.save(category);
 
+            return "recipe/add";
+        }else {
+
+            recipe.setCategory(cat);
+            recipe.setIngredientList(ingredientList);
+            recipeDao.save(recipe);
+            return "redirect: recipe/view_recipe";
         }
-        newRecipe.setCategory(category);
-        ingredientsDao.save(ingredients);
-        ingredients.setRecipe(newRecipe);
-        recipeDao.save(newRecipe);
-        return "recipe/view_recipe";
     }
 
 

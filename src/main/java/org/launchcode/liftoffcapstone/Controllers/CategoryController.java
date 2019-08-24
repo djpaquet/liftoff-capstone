@@ -27,7 +27,7 @@ public class CategoryController {
     RecipeDao recipeDao;
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String addCategory(Model model){
+    public String add(Model model){
         model.addAttribute(new Category());
         model.addAttribute("title", "Add a new Category");
         return "category/add";
@@ -38,12 +38,13 @@ public class CategoryController {
                       @ModelAttribute @Valid Category category, Errors errors){
         if(errors.hasErrors()){
             model.addAttribute("title", "Add Category");
+            model.addAttribute("error", errors);
             return "category/add";
         }
 
         categoryDao.save(category);
         //return recipe/add until build main view//
-        return "recipe/add";
+        return "/user/user_view";
     }
 
     @RequestMapping(value="view_recipes/{categoryId}", method = RequestMethod.GET)

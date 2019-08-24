@@ -6,7 +6,7 @@
 
     <div class="card mb-3">
         <h3 th:text="${recipe.name}" class="card-header">Name</h3>
-        <h5 th:text="${category.categoryName}" class="card-header">>Category</h5>
+        <h5 th:text="${recipe.category.categoryName}" class="card-header">>Category</h5>
 
 
     <div class="card-body">
@@ -17,17 +17,16 @@
     </div>
 
     <div class="card-body">
-        <table>
-        <tbody>
-        <tr  class="table-secondary" th:each="ingredient : *{ingredients}">
-            <td th:text="${ingredient.ingredientAmount}"></td>
-            <td th:text="${ingredient.amountMeasurement}"></td>
-            <td th:text="${ingredient.ingredientName}"></td>
-            <td th:text="${ingredient.ingredientDescription}"></td>
+        <ul class="list-inline" th:each="ingredient, status : *{ingredients}">
 
-        </tr>
-        </tbody>
-    </table>
+            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].ingredientAmount}"></li>
+            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].amountMeasurement}"></li>
+            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].ingredientName}"></li>
+            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].ingredientDescription}"></li>
+
+        </ul>
+
+
     </div>
     <div class="card-body">
         <ol th:each="instruction : ${recipe.instructions}">

@@ -28,11 +28,11 @@
 
         <div class="form-group"  th:each="category : ${categories}" >
             <p th:text="${category.categoryName}">Name</p>
-            <select class="custom-select" th:each="recipe : ${category.recipes}">
+            <!--<select class="custom-select" th:each="recipe : ${category.recipes}">
                <option  th:each="recipe : ${category.recipes}" th:text="${recipe.name}">
 
                 </option>
-            </select>
+            </select>-->
         </div>
 
         </div>

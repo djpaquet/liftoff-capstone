@@ -1,11 +1,12 @@
 package org.launchcode.liftoffcapstone.models;
 
+import org.launchcode.liftoffcapstone.models.forms.IngredientList;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Recipe {
@@ -15,13 +16,13 @@ public class Recipe {
     private int id;
 
     @NotNull(message = "Please give your recipe a title!")
-    @Size(min=3)
+    @Size(min = 3)
     private String name;
 
 
     private int yield;
 
-    private String yieldType;
+    private MeasurementUnit yieldType;
 
     private String instructions;
 
@@ -31,18 +32,28 @@ public class Recipe {
     private Category category;
 
     @OneToMany(mappedBy = "recipe")
-    private List<Ingredients> ingredients = new ArrayList<>();
+    private List<IngredientList> ingredientList;
 
-    public Recipe(String name, int yield, String yieldType, String notes, String instructions){
+    public Recipe(String name, int yield, String notes, String instructions) {
         this.name = name;
         this.yield = yield;
-        this.yieldType = yieldType;
         this.instructions = instructions;
         this.notes = notes;
 
     }
 
-    public Recipe(){}
+    public Recipe(){};
+
+    public List<IngredientList> getIngredientList() {
+        if(ingredientList == null){
+            ingredientList = new ArrayList<IngredientList>();
+        }
+        return ingredientList;
+    }
+
+    public void setIngredientList(List<IngredientList> ingredientList) {
+        this.ingredientList = ingredientList;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -64,11 +75,11 @@ public class Recipe {
         this.yield = yield;
     }
 
-    public String getYieldType() {
+    public MeasurementUnit getYieldType() {
         return yieldType;
     }
 
-    public void setYieldType(String yieldType) {
+    public void setYieldType(MeasurementUnit yieldType) {
         this.yieldType = yieldType;
     }
 
@@ -80,13 +91,6 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public List<Ingredients> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredients> ingredients) {
-        this.ingredients = ingredients;
-    }
 
     public String getNotes() {
         return notes;
@@ -104,22 +108,5 @@ public class Recipe {
         this.category = category;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Recipe)) return false;
-        Recipe recipe = (Recipe) o;
-        return getYield() == recipe.getYield() &&
-                getName().equals(recipe.getName()) &&
-                Objects.equals(getYieldType(), recipe.getYieldType()) &&
-                getInstructions().equals(recipe.getInstructions()) &&
-                getNotes().equals(recipe.getNotes()) &&
-                getCategory().equals(recipe.getCategory()) &&
-                getIngredients().equals(recipe.getIngredients());
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getYield(), getYieldType(), getInstructions(), getNotes(), getCategory(), getIngredients());
-    }
 }

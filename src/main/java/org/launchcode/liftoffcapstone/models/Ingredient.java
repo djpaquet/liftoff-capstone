@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-public class Ingredients {
+public class Ingredient {
 
     @Id
     @GeneratedValue
@@ -20,9 +20,7 @@ public class Ingredients {
 //    @Size(min=1)
     private int ingredientAmount;
 
-    @NotNull(message = "Must enter a measurement")
-    @Size(min=1)
-    private String amountMeasurement;
+   private MeasurementUnit unit;
 
     private String ingredientDescription;
 
@@ -32,14 +30,13 @@ public class Ingredients {
     private Recipe recipe;
 
 
-    public Ingredients(String ingredientName, int ingredientAmount, String amountMeasurement, String ingredientDescription){
+    public Ingredient(String ingredientName, int ingredientAmount, String ingredientDescription){
         this.ingredientName = ingredientName;
         this.ingredientAmount = ingredientAmount;
-        this.amountMeasurement = amountMeasurement;
         this.ingredientDescription = ingredientDescription;
     }
 
-    public Ingredients(){}
+    public Ingredient(){}
 
     public int getId() {
         return id;
@@ -61,6 +58,14 @@ public class Ingredients {
         this.ingredientAmount = ingredientAmount;
     }
 
+    public MeasurementUnit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(MeasurementUnit unit) {
+        this.unit = unit;
+    }
+
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
@@ -69,13 +74,6 @@ public class Ingredients {
         return recipe;
     }
 
-    public String getAmountMeasurement() {
-        return amountMeasurement;
-    }
-
-    public void setAmountMeasurement(String amountMeasurement) {
-        this.amountMeasurement = amountMeasurement;
-    }
 
     public String getIngredientDescription() {
         return ingredientDescription;
@@ -85,21 +83,6 @@ public class Ingredients {
         this.ingredientDescription = ingredientDescription;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Ingredients)) return false;
-        Ingredients that = (Ingredients) o;
-        return getId() == that.getId() &&
-                getIngredientAmount() == that.getIngredientAmount() &&
-                Objects.equals(getIngredientName(), that.getIngredientName()) &&
-                Objects.equals(getAmountMeasurement(), that.getAmountMeasurement()) &&
-                Objects.equals(getIngredientDescription(), that.getIngredientDescription()) &&
-                Objects.equals(getRecipe(), that.getRecipe());
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getIngredientName(), getIngredientAmount(), getAmountMeasurement(), getIngredientDescription(), getRecipe());
-    }
+
 }

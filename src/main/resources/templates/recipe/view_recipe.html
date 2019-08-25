@@ -17,12 +17,12 @@
     </div>
 
     <div class="card-body">
-        <ul class="list-inline" th:each="ingredient, status : *{ingredients}">
+        <ul class="list-inline" th:each="ingredient : *{recipe.ingredients}">
 
-            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].ingredientAmount}"></li>
-            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].amountMeasurement}"></li>
-            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].ingredientName}"></li>
-            <li class="list-inline-item" th:text="${ingredients.[__${status.index}__].ingredientDescription}"></li>
+            <li class="list-inline-item" th:text="${ingredient.ingredientAmount}"></li>
+            <li class="list-inline-item" th:text="${ingredient.measurementUnit}"></li>
+            <li class="list-inline-item" th:text="${ingredient.ingredientName}"></li>
+            <li class="list-inline-item" th:text="${ingredient.ingredientDescription}"></li>
 
         </ul>
 

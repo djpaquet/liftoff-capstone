@@ -1,7 +1,5 @@
 package org.launchcode.liftoffcapstone.models;
 
-import org.launchcode.liftoffcapstone.models.forms.IngredientList;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +22,9 @@ public class Recipe {
 
     private MeasurementUnit yieldType;
 
+    @Transient
+    private MeasurementUnit measurementUnit;
+
     private String instructions;
 
     private String notes;
@@ -31,10 +32,11 @@ public class Recipe {
     @ManyToOne
     private Category category;
 
-    @OneToMany(mappedBy = "recipe")
-    private List<IngredientList> ingredientList;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Ingredient> ingredients;
 
     public Recipe(String name, int yield, String notes, String instructions) {
+        this();
         this.name = name;
         this.yield = yield;
         this.instructions = instructions;
@@ -42,17 +44,29 @@ public class Recipe {
 
     }
 
-    public Recipe(){};
-
-    public List<IngredientList> getIngredientList() {
-        if(ingredientList == null){
-            ingredientList = new ArrayList<IngredientList>();
-        }
-        return ingredientList;
+    public Recipe(){
+        this.ingredients = new ArrayList<>();
     }
 
-    public void setIngredientList(List<IngredientList> ingredientList) {
-        this.ingredientList = ingredientList;
+    public int getId() {
+        return id;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+        for (Ingredient ingredient : ingredients){
+            ingredient.setRecipe(this);
+        }
+    }
+
+    public void addIngredient(Ingredient ingredient){
+        ingredient.setRecipe(this);
+        ingredient.setMeasurementUnit(measurementUnit);
+        ingredients.add(ingredient);
     }
 
     public void setId(int id) {
@@ -108,5 +122,11 @@ public class Recipe {
         this.category = category;
     }
 
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
+    }
 
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
+    }
 }

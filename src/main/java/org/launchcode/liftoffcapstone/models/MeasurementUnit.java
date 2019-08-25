@@ -2,7 +2,7 @@ package org.launchcode.liftoffcapstone.models;
 
 public enum MeasurementUnit {
 
-    TSP ("Tsp"),
+    TSP ("tsp"),
     TBS ("TBS"),
     CUP ("cup"),
     OZ ("oz"),
@@ -10,16 +10,19 @@ public enum MeasurementUnit {
     PINTS ("pints"),
     QTS ("qts"),
     EACH ("each"),
-    PINCH ("pinch");
-
-    private final String name;
-
+    PINCH ("pinch"),
+    ;
 
     MeasurementUnit(String name) {
         this.name = name;
     }
 
+    private final String name;
+
     public String getName() {
         return name;
     }
+
+
+
 }

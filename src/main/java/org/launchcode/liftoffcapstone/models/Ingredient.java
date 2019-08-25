@@ -1,9 +1,7 @@
 package org.launchcode.liftoffcapstone.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Objects;
+;import static org.launchcode.liftoffcapstone.models.MeasurementUnit.TSP;
 
 @Entity
 public class Ingredient {
@@ -12,15 +10,11 @@ public class Ingredient {
     @GeneratedValue
     private int id;
 
-    @NotNull(message = "What is this ingredients name?")
-    @Size(min = 2)
     private String ingredientName;
 
-    @NotNull(message = "Must enter an amount")
-//    @Size(min=1)
     private int ingredientAmount;
 
-   private MeasurementUnit unit;
+    private MeasurementUnit measurementUnit;
 
     private String ingredientDescription;
 
@@ -58,12 +52,12 @@ public class Ingredient {
         this.ingredientAmount = ingredientAmount;
     }
 
-    public MeasurementUnit getUnit() {
-        return unit;
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
     }
 
-    public void setUnit(MeasurementUnit unit) {
-        this.unit = unit;
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public void setRecipe(Recipe recipe) {

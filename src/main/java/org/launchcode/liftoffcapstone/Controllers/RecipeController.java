@@ -1,7 +1,6 @@
 package org.launchcode.liftoffcapstone.Controllers;
 
 import org.launchcode.liftoffcapstone.models.MeasurementUnit;
-import org.launchcode.liftoffcapstone.models.forms.IngredientList;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,24 +36,21 @@ public class RecipeController {
     @RequestMapping(value= "add", method = RequestMethod.GET)
     public String add(Model model){
 
-
+        Recipe recipe = new Recipe();
+        recipe.addIngredient(new Ingredient(" ",0," "));
 
         model.addAttribute("title", "Add New Recipe");
-        model.addAttribute(new Recipe());
+        model.addAttribute("recipe", recipe);
         model.addAttribute("categories", categoryDao.findAll());
-        model.addAttribute("measurementUnit", MeasurementUnit.values());
-
-
-
-
+        model.addAttribute("measurementUnits", MeasurementUnit.values());
 
         return "recipe/add";
 
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddRecipe(@ModelAttribute @Valid Recipe recipe, Errors errors, @ModelAttribute List<IngredientList> ingredientList
-                                   , @RequestParam int categoryId, Model model){
+    public String processAddRecipe(@ModelAttribute @Valid Recipe recipe, Errors errors,
+                                    @RequestParam int categoryId, Model model){
 
 
         Category cat = categoryDao.findOne(categoryId);
@@ -69,9 +65,8 @@ public class RecipeController {
         }else {
 
             recipe.setCategory(cat);
-            recipe.setIngredientList(ingredientList);
             recipeDao.save(recipe);
-            return "redirect: recipe/view_recipe";
+            return "recipe/view_recipe";
         }
     }
 

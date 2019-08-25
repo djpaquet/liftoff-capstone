@@ -10,6 +10,7 @@
 <h1 th:text="${title}">Title</h1>
 
 <form method="post"  th:object="${recipe}"  >
+    <input type="hidden" th:field="*{id}" />
     <fieldset class="form-group" style="max_width: 600px;">
     <div class="form-check">
         <label class="form-check-label" th:for="name">Name</label>
@@ -34,7 +35,7 @@
             </div>
             <div class="col" th:for="yieldType">
                <select class="custom-select" th:field="*{yieldType}">
-                   <option  th:each="yieldType : &{measurementUnit}"
+                   <option  th:each="measurementUnit : ${measurementUnits}"
                             th:text="${measurementUnit.name}"
                             th:value="${measurementUnit}"></option>
                </select>
@@ -43,31 +44,28 @@
     </div>
     <div class="form-check">
         <h3>Ingredients</h3>
-        <div class="row item" id="ingredient-area">
+        <div class="row item" id="ingredient-area" th:each="ingredient : *{ingredients}">
             <div class="col">
-<!--                <&#45;&#45;<input class="form-control" th:type="hidden" th:object="${ingredient}" th:field="*{id}"  /> -->
-                <input class="form-control" th:type="text" th:field="${ingredient.ingredientName}" placeholder="Name" name="ingredientName"/>
-               <span th:error_ing="*{ingredientName}" class="errors"></span>
+                <input class="form-control" type="hidden"  th:field="*{ingredients[__${ingredientStat.index}__].id}"  />
+                <input class="form-control" th:type="text" th:field="*{ingredients[__${ingredientStat.index}__].ingredientName}" placeholder="Name" name="ingredientName"/>
             </div>
             <div class="col-sm-2">
-                <input id="ingredientAmount" class="form-control" th:type="text"  th:object="${ingredient}" th:field="*{ingredientAmount}" name="ingredientAmount" />
-                <span th:error_ing="*{ingredientAmount}" class="errors"></span>
+                <input id="ingredientAmount" class="form-control" th:type="text"   th:field="*{ingredients[__${ingredientStat.index}__].ingredientAmount}" name="ingredientAmount" />
             </div>
             <div class="col">
-                <select class="custom-select" th:field="*{unit}">
-                    <option  th:each="units : &{measurementUnit}"
+                <select class="custom-select"  th:for="measurementUnit" th:field="*{measurementUnit}">
+                    <option  th:each="measurementUnit : ${measurementUnits}"
                              th:text="${measurementUnit.name}"
                              th:value="${measurementUnit}"></option>
                 </select>
             </div>
             <div class="col">
-                <input id="ingredientDescription" class="form-control" th:type="text"  th:object="${ingredient}" th:field="*{ingredientDescription}" placeholder="Description" name="ingredientDescription" />
-                <span th:error_ing="*{ingredientDescription}" class="errors"></span>
+                <input id="ingredientDescription" class="form-control" th:type="text"  th:field="*{ingredients[__${ingredientStat.index}__].ingredientDescription}" placeholder="Description" name="ingredientDescription" />
             </div>
         </div>
     </div>
         <div align="right" >
-           <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add_ing_button" />
+           <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add-ingredient" />
             <input class="btn btn-danger btn-sm" th:type="button" value="Remove Ingredient" id="remove-ing-button" />
         </div>
 

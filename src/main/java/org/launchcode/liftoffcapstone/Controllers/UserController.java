@@ -43,6 +43,12 @@ public class UserController {
     @RequestMapping(value="sign-up", method = RequestMethod.POST)
     public String processSignUp(Model model, @ModelAttribute @Valid User user, String verifyPassword, Errors errors) {
 
+        if( userDao.findByUsername(user.getUsername()) != null){
+            model.addAttribute("error", "Username is already taken");
+            model.addAttribute("email", user.getEmail());
+            return "user/sign-up";
+        }
+
         if (!verifyPassword.equals(user.getPassword()) || errors.hasErrors()){
             model.addAttribute("title", "Sign up to get started!");
             model.addAttribute("username", user.getUsername());

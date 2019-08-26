@@ -30,7 +30,7 @@
     </div>
     <div class="card-body">
         <ol th:each="instruction : ${recipe.instructions}">
-            <li th:text="${instruction}"></li>
+            <li th:text="${instruction.step}"></li>
         </ol>
     </div>
 

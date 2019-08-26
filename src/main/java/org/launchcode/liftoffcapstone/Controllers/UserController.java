@@ -33,6 +33,11 @@ public class UserController {
     @Autowired
     private RecipeDao recipeDao;
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String index(Model model){
+        return "user/index";
+    }
+
     @RequestMapping(value = "sign-up", method = RequestMethod.GET)
     public String sign_up(Model model){
         model.addAttribute(new User());
@@ -57,10 +62,10 @@ public class UserController {
             model.addAttribute("error", errors);
             return "user/sign-up";
 
-        }else{
-            userDao.save(user);
-            return "user/user_view";
         }
+            userDao.save(user);
+            return  "redirect: recipe/index";
+
 
     }
 

@@ -20,7 +20,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size
+    @Size(min = 4, message = "Username must be at least 4 characters long")
     private String username;
 
     @NotNull

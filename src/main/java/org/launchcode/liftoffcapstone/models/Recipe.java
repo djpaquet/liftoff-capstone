@@ -25,7 +25,8 @@ public class Recipe {
     @Transient
     private MeasurementUnit measurementUnit;
 
-    private String instructions;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Instruction> instructions;
 
     private String notes;
 
@@ -35,17 +36,17 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
-    public Recipe(String name, int yield, String notes, String instructions) {
+    public Recipe(String name, int yield, String notes) {
         this();
         this.name = name;
         this.yield = yield;
-        this.instructions = instructions;
         this.notes = notes;
 
     }
 
     public Recipe(){
         this.ingredients = new ArrayList<>();
+        this.instructions = new ArrayList<>();
     }
 
     public int getId() {
@@ -97,14 +98,21 @@ public class Recipe {
         this.yieldType = yieldType;
     }
 
-    public String getInstructions() {
+    public List<Instruction> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
+        for(Instruction instruction : instructions){
+            instruction.setRecipe(this);
+        }
     }
 
+    public void addInstruction(Instruction instruction){
+        instruction.setRecipe(this);
+        instructions.add(instruction);
+    }
 
     public String getNotes() {
         return notes;

@@ -20,10 +20,8 @@ public class Recipe {
 
     private int yield;
 
+    @Enumerated(EnumType.STRING)
     private MeasurementUnit yieldType;
-
-    @Transient
-    private MeasurementUnit measurementUnit;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Instruction> instructions;
@@ -36,10 +34,11 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
-    public Recipe(String name, int yield, String notes) {
+    public Recipe(String name, int yield, MeasurementUnit yieldType, String notes) {
         this();
         this.name = name;
         this.yield = yield;
+        this.yieldType = yieldType;
         this.notes = notes;
 
     }
@@ -61,12 +60,12 @@ public class Recipe {
         this.ingredients = ingredients;
         for (Ingredient ingredient : ingredients){
             ingredient.setRecipe(this);
+
         }
     }
 
     public void addIngredient(Ingredient ingredient){
         ingredient.setRecipe(this);
-        ingredient.setMeasurementUnit(measurementUnit);
         ingredients.add(ingredient);
     }
 
@@ -130,11 +129,5 @@ public class Recipe {
         this.category = category;
     }
 
-    public MeasurementUnit getMeasurementUnit() {
-        return measurementUnit;
-    }
 
-    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
-        this.measurementUnit = measurementUnit;
-    }
 }

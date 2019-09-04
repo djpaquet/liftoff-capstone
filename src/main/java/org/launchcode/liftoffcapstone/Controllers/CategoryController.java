@@ -44,7 +44,7 @@ public class CategoryController {
 
         categoryDao.save(category);
         //return recipe/add until build main view//
-        return "/user/user_view";
+        return "redirect:/recipe/add";
     }
 
     @RequestMapping(value="view_recipes/{categoryId}", method = RequestMethod.GET)

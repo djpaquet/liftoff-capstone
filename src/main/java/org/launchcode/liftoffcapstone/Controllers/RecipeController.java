@@ -10,13 +10,13 @@ import org.launchcode.liftoffcapstone.models.data.IngredientsDao;
 import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-
 import javax.validation.Valid;
-
+import java.util.List;
 
 
 @Controller
 @RequestMapping(value= "recipe")
+
 
 public class RecipeController {
 
@@ -45,8 +45,10 @@ public class RecipeController {
     public String add(Model model){
 
         Recipe recipe = new Recipe();
-        recipe.addIngredient(new Ingredient(" ",0," "));
-        recipe.addInstruction(new Instruction(""));
+        recipe.addIngredient(new Ingredient(" ",0 , MeasurementUnit.TBS , " "));
+        recipe.addInstruction(new Instruction(" "));
+
+
 
         model.addAttribute("title", "Add New Recipe");
         model.addAttribute("recipe", recipe);
@@ -59,7 +61,7 @@ public class RecipeController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddRecipe(@ModelAttribute @Valid Recipe recipe, Errors errors,
-                                    @RequestParam int categoryId, Model model){
+                                    @RequestParam int categoryId, Model model) {
 
 
         Category cat = categoryDao.findOne(categoryId);
@@ -72,13 +74,35 @@ public class RecipeController {
             model.addAttribute("errors", errors);
 
             return "recipe/add";
-        }else {
+        } else {
 
+
+            createRecipe(recipe);
             recipe.setCategory(cat);
             recipeDao.save(recipe);
             return "recipe/view_recipe";
         }
     }
+    @RequestMapping(value = "view_recipe/{recipeId", method = RequestMethod.GET)
+    public String viewRecipe(Model model, @PathVariable int recipeId){
+
+        Recipe recipe = recipeDao.findOne(recipeId);
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("title", recipe.getName());
+        return "recipe/view_recipe";
+
+    }
+
+
+
+
+        private void createRecipe(Recipe recipe){
+            recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(recipe));
+            recipe.getInstructions().forEach(instruction -> instruction.setRecipe(recipe));
+
+        }
+
 
 
 }

@@ -4,6 +4,11 @@
 </head>
 <body class="container">
 
+    <nav th:replace="fragments :: nav"></nav>
+
+    <br />
+    <br />
+
     <div class="card mb-3">
         <h3 th:text="${recipe.name}" class="card-header">Name</h3>
         <h5 th:text="${recipe.category.categoryName}" class="card-header">>Category</h5>
@@ -19,9 +24,9 @@
     <div class="card-body">
         <ul class="list-inline" th:each="ingredient : *{recipe.ingredients}">
 
+            <li class="list-inline-item" th:text="${ingredient.ingredientName}"></li>
             <li class="list-inline-item" th:text="${ingredient.ingredientAmount}"></li>
             <li class="list-inline-item" th:text="${ingredient.measurementUnit}"></li>
-            <li class="list-inline-item" th:text="${ingredient.ingredientName}"></li>
             <li class="list-inline-item" th:text="${ingredient.ingredientDescription}"></li>
 
         </ul>

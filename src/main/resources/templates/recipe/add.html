@@ -6,12 +6,16 @@
 </head>
 
 <body class="container">
+<nav th:replace="fragments :: nav"></nav>
+<br />
+<br />
+
 
 <h1 th:text="${title}">Title</h1>
 
 <form method="post"  th:object="${recipe}"  >
-    <input type="hidden" th:field="*{id}" />
-    <fieldset class="form-group" style="max_width: 600px;">
+<!--    <input type="hidden" th:field="*{id}" />-->
+    <fieldset class="form-group" style="max_width: 200px;">
     <div class="form-check">
         <label class="form-check-label" th:for="name">Name</label>
         <input id="name" class="form-control" th:type="text" th:field="*{name}" name="name" />
@@ -25,6 +29,7 @@
                     th:text="${category.categoryName}"
                     th:value="${category.id}"></option>
         </select>
+        <a href="/category/add">Add a new category!</a>
     </div>
 
     <div class="form-check">
@@ -35,7 +40,7 @@
             </div>
             <div class="col" th:for="yieldType">
                <select class="custom-select" th:field="*{yieldType}">
-                   <option  th:each="measurementUnit : ${measurementUnits}"
+                   <option  th:each="measurementUnit : ${T(org.launchcode.liftoffcapstone.models.MeasurementUnit).values()}"
                             th:text="${measurementUnit.name}"
                             th:value="${measurementUnit}"></option>
                </select>
@@ -44,7 +49,7 @@
     </div>
     <div class="form-check">
         <h3>Ingredients</h3>
-        <div class="row item" id="ingredient-area" th:each="ingredient : *{ingredients}">
+        <div class="row item" id="ingredient-list" th:each="ingredient : *{ingredients}">
             <div class="col">
 <!--                <input class="form-control" type="hidden"  th:field="*{ingredients[__${ingredientStat.index}__].id}"  />-->
                 <input class="form-control" th:type="text" th:field="*{ingredients[__${ingredientStat.index}__].ingredientName}" placeholder="Name" name="ingredientName"/>
@@ -53,36 +58,38 @@
                 <input id="ingredientAmount" class="form-control" th:type="text"   th:field="*{ingredients[__${ingredientStat.index}__].ingredientAmount}" name="ingredientAmount" />
             </div>
             <div class="col">
-                <select class="custom-select"  th:for="measurementUnit" th:field="*{measurementUnit}">
-                    <option  th:each="measurementUnit : ${measurementUnits}"
+                <select class="custom-select"  th:for="measurementUnit" th:field="*{ingredients[__${ingredientStat.index}__].measurementUnit}">
+                    <option  th:each="measurementUnit : ${T(org.launchcode.liftoffcapstone.models.MeasurementUnit).values()}"
                              th:text="${measurementUnit.name}"
                              th:value="${measurementUnit}"></option>
                 </select>
             </div>
-            <div class="col" id="last-ing-row">
+            <div class="col">
                 <input id="ingredientDescription" class="form-control" th:type="text"  th:field="*{ingredients[__${ingredientStat.index}__].ingredientDescription}" placeholder="Description" name="ingredientDescription" />
             </div>
         </div>
 
     </div>
         <div align="right" >
-           <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add-ingredient" />
+            <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add-ingredient" />
             <input class="btn btn-danger btn-sm" th:type="button" value="Remove Ingredient" id="remove-ing-button" />
         </div>
 
+        <div class="form-check">
+            <h3 class="form-check-label" th:for="instructions">Instructions</h3>
 
-    <div class="form-check" id="instruction-area" th:each="instruction : *{instructions}">
-        <label class="form-check-label" th:for="instructions">Instructions</label>
-       <input type="hidden" th:field="*{instructions[__${instructionStat.index}__].id}" />
-        <input class="form-control" id="instruction" th:type="text-area" th:field="*{instructions[__${instructionStat.index}__].step}" />
-    </div>
+            <div  id="instruction-area" th:each="instruction : *{instructions}">
+                <input class="form-control" id="step" th:type="text" th:field="*{instructions[__${instructionStat.index}__].step}" name="step"/>
+            </div>
+
+        </div>
     <div align="right">
-       <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="addInstructions" />
+       <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="addInstruction" />
     </div>
 
     <div class="form-check" id="notes">
         <label class="form-check-label" th:for="notes">Notes:</label>
-        <input class="form-control" th:type="text-area" th:field="*{notes}" />
+        <input class="form-control" th:type="text" th:field="*{notes}" />
     </div>
     </fieldset>
 

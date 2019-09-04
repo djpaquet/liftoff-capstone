@@ -11,17 +11,23 @@ public enum MeasurementUnit {
     QTS ("qts"),
     EACH ("each"),
     PINCH ("pinch"),
+    NULL (" "),
     ;
+
+    private final String name;
+
 
     MeasurementUnit(String name) {
         this.name = name;
     }
 
-    private final String name;
+
 
     public String getName() {
         return name;
     }
+
+
 
 
 

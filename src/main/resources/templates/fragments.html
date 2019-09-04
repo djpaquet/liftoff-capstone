@@ -13,6 +13,21 @@
 </head>
 <body class="container">
 
+<div th:fragment="nav">
+<ul class="nav nav-tabs" >
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="/recipe">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="/category/add">Add a Category</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href="/recipe/add">Add a new recipe</a>
+    </li>
+</ul>
+</div>
+
+
 <header th:fragment="header" class="header">
     <h1 class="title" align="center">T.R.APP.E.R Keeper</h1>
     <p>The Recipe App Everyone Requires</p> </header>

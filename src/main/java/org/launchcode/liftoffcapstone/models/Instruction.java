@@ -16,7 +16,7 @@ public class Instruction {
     @JoinColumn(name = "recipe_id")
     Recipe recipe;
 
-    public Instruction(String step){
+    public Instruction(String instruction){
         this.step = step;
     }
 

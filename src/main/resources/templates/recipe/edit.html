@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+    <title>The T.R.APP.E.R Keeper</title>
+</head>
+
+<body class="container">
+
+<header th:replace=" fragments :: header"></header>
+
+<nav th:replace="fragments :: nav"></nav>
+<br />
+<br />
+
+<h2 th:text="'Edit Recipe' + ${recipe.name}"></h2>
+
+<form method="post" object="${recipe}" action="/recipe/edit">
+    <fieldset class="form-group" style="max_width: 200px;">
+        <div class="form-check">
+            <label class="form-check-label" th:for="name">Name</label>
+            <input id="name" class="form-control" th:type="text" th:field="${recipe.name}" name="name" />
+            <span th:error="*{name}" class="errors"></span>
+        </div>
+
+        <div class="form-check">
+            <label th:for="category">Category</label>
+            <select class="custom-select" name="categoryId">
+                <option th:each="category : ${categories}"
+                        th:text="${category.categoryName}"
+                        th:value="${category.id}"></option>
+            </select>
+            <a href="/category/add">Add a new category!</a>
+        </div>
+
+        <div class="form-check">
+            <label class="form-check-label" >Yield</label>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" th:type="text" th:field="${recipe.yield}" />
+                </div>
+                <div class="col" th:for="yieldType">
+                    <select class="custom-select" th:field="${recipe.yieldType}">
+                        <option  th:each="measurementUnit : ${T(org.launchcode.liftoffcapstone.models.MeasurementUnit).values()}"
+                                 th:text="${measurementUnit.name}"
+                                 th:value="${measurementUnit}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-check">
+            <h3>Ingredients</h3>
+            <div class="row item" id="ingredient-list" th:each="ingredient : *{ingredients}">
+                <div class="col">
+                    <!--                <input class="form-control" type="hidden"  th:field="*{ingredients[__${ingredientStat.index}__].id}"  />-->
+                    <input class="form-control" th:type="text" th:field="*{ingredients[__${ingredientStat.index}__].ingredientName}" placeholder="Name" name="ingredientName"/>
+                </div>
+                <div class="col-sm-2">
+                    <input id="ingredientAmount" class="form-control" th:type="text"   th:field="*{ingredients[__${ingredientStat.index}__].ingredientAmount}" name="ingredientAmount" />
+                </div>
+                <div class="col">
+                    <select class="custom-select"  th:for="measurementUnit" th:field="*{ingredients[__${ingredientStat.index}__].measurementUnit}">
+                        <option  th:each="measurementUnit : ${T(org.launchcode.liftoffcapstone.models.MeasurementUnit).values()}"
+                                 th:text="${measurementUnit.name}"
+                                 th:value="${measurementUnit}"></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input id="ingredientDescription" class="form-control" th:type="text"  th:field="*{ingredients[__${ingredientStat.index}__].ingredientDescription}" placeholder="Description" name="ingredientDescription" />
+                </div>
+            </div>
+
+        </div>
+        <div align="right" >
+            <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add-ingredient" />
+            <input class="btn btn-danger btn-sm" th:type="button" value="Remove Ingredient" id="remove-ing-button" />
+        </div>
+
+        <div class="form-check">
+            <h3  class="form-check-label" th:for="instructions">Instructions</h3>
+
+            <div id="instruction-area" th:each="instruction : ${instructions}">
+                <div>
+                    <input class="form-control" id="step" th:type="text" th:field="${instructions[__${instructionStat.index}__].step}" name="step"/>
+                </div>
+            </div>
+
+        </div>
+        <div align="right">
+            <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="add-Instruction" />
+        </div>
+
+        <div class="form-check" id="notes">
+            <label class="form-check-label" th:for="notes">Notes:</label>
+            <input class="form-control" th:type="text" th:field="${recipe.notes}" />
+        </div>
+    </fieldset>
+
+    <input type="hidden" th:value="*{recipeId}" name="recipeId" />
+    <input type="submit" value="Edit Recipe"/>
+</form>
+
+
+</body>
+</html>

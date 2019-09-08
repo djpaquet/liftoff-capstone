@@ -27,13 +27,12 @@ function addIngredient() {
     $lastIngredient.before($newIngredient);
 }
 
-$("#addInstruction").click(function(event){
+$("#add-Instruction").click(function(event){
        event.preventDefault();
        addInstruction();
 });
 
 function addInstruction(){
-
 
      var $lastInstruction = $("#instruction-area:last");
 

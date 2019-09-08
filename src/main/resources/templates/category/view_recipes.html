@@ -5,11 +5,18 @@
 </head>
 
 <body class="container">
+
+<header th:replace=" fragments :: header"></header>
+
+<nav th:replace="fragments :: nav"></nav>
+<br />
+<br />
+
 <h1 th:title="${title}">Title</h1>
 <ul class="list-group" >
-    <li class="list-group-item d-flex justify-content-between align-items-center" th:each="recipe : ${category.recipes}" th:text="${recipe.name}">
-
-        <span class="badge badge-primary badge-pill">14</span>
+    <li class="list-group-item d-flex justify-content-between align-items-center" th:each="recipe : ${category.recipes}" >
+        <a th:href="'/recipe/view_recipe/' + ${recipe.id}" th:text="${recipe.name}">name</a>
+        <span class="badge badge-warning"><a th:href="'/recipe/edit/' + ${recipe.id}">Edit</a></span>
     </li>
 </ul>
 

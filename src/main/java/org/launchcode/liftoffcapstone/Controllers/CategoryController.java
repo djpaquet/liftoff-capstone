@@ -40,6 +40,10 @@ public class CategoryController {
             model.addAttribute("title", "Add Category");
             model.addAttribute("error", errors);
             return "category/add";
+        }else if(categoryDao.findByCategoryName(category.getCategoryName()) != null){
+            model.addAttribute("error", "Category already exists");
+            return "category/add";
+
         }
 
         categoryDao.save(category);
@@ -55,6 +59,6 @@ public class CategoryController {
         model.addAttribute("category", category);
         model.addAttribute("title", category.getCategoryName());
 
-        return "category/view_recipes/" + category.getId();
+        return "category/view_recipes";
     }
 }

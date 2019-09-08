@@ -39,8 +39,6 @@ public class RecipeController {
         return "recipe/index";
     }
 
-
-
     @RequestMapping(value= "add", method = RequestMethod.GET)
     public String add(Model model){
 
@@ -48,42 +46,36 @@ public class RecipeController {
         recipe.addIngredient(new Ingredient(" ",0 , MeasurementUnit.TBS , " "));
         recipe.addInstruction(new Instruction(" "));
 
-
-
         model.addAttribute("title", "Add New Recipe");
         model.addAttribute("recipe", recipe);
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("measurementUnits", MeasurementUnit.values());
 
         return "recipe/add";
-
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddRecipe(@ModelAttribute @Valid Recipe recipe, Errors errors,
                                     @RequestParam int categoryId, Model model) {
 
-
         Category cat = categoryDao.findOne(categoryId);
-
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add New Recipe");
             model.addAttribute("categories", categoryDao.findAll());
             model.addAttribute("measurementUnit", MeasurementUnit.values());
             model.addAttribute("errors", errors);
-
             return "recipe/add";
         } else {
-
-
             createRecipe(recipe);
             recipe.setCategory(cat);
             recipeDao.save(recipe);
-            return "recipe/view_recipe";
+            return "redirect:/recipe/view_recipe/" + recipe.getId();
         }
     }
-    @RequestMapping(value = "view_recipe/{recipeId", method = RequestMethod.GET)
+
+    //returns recipe view with id parameter
+    @RequestMapping(value = "view_recipe/{recipeId}", method = RequestMethod.GET)
     public String viewRecipe(Model model, @PathVariable int recipeId){
 
         Recipe recipe = recipeDao.findOne(recipeId);
@@ -94,6 +86,47 @@ public class RecipeController {
 
     }
 
+    @RequestMapping(value = "edit/{recipeId}", method = RequestMethod.GET)
+    public String displayEditRecipe(Model model, @PathVariable int recipeId){
+
+        Recipe editRecipe = recipeDao.findOne(recipeId);
+        model.addAttribute("recipe", editRecipe);
+        model.addAttribute("measurementUnit", MeasurementUnit.values());
+        return "recipe/edit";
+
+    }
+
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public String processEditRecipe(Model model, int recipeId, @ModelAttribute @Valid Recipe recipe, Errors errors){
+        Recipe editRecipe = recipeDao.findOne(recipeId);
+
+        if(errors.hasErrors()){
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("measurementUnit", MeasurementUnit.values());
+            return "recipe/edit";
+        }
+        createRecipe(editRecipe);
+        recipeDao.save(editRecipe);
+        return "redirect:";
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.GET)
+    public String displayRemoveRecipe(Model model){
+
+        model.addAttribute("recipes", recipeDao.findAll());
+        model.addAttribute("title", "Remove Recipes");
+        return "recipe/remove";
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    public String removeRecipe(@RequestParam int[] recipeIds){
+
+        for (int recipeId : recipeIds){
+            recipeDao.delete(recipeId);
+        }
+
+        return "redirect:";
+    }
 
 
 

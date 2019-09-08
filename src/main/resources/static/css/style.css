@@ -10956,3 +10956,24 @@ pre {
 .img-thumbnail {
   border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
 }
+
+.index {
+    display: flex;
+    justify-content: center;
+}
+.recipe-collection {
+    margin-left: 20px;
+    margin-right: 20px;
+ }
+.search {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 200px;
+}
+
+
+.add {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 200px;
+}

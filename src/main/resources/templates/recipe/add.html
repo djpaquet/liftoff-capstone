@@ -21,7 +21,8 @@
     <div class="form-check">
         <label class="form-check-label" th:for="name">Name</label>
         <input id="name" class="form-control" th:type="text" th:field="*{name}" name="name" />
-        <span th:error="*{name}" class="errors"></span>
+        <span th:errors="*{name}" class="invalid-feedback"></span>
+        <span th:text="${error}"></span>
     </div>
 
     <div class="form-check">
@@ -74,7 +75,7 @@
     </div>
         <div align="right" >
             <input class="btn btn-primary btn-sm" th:type="button" value="Add Ingredients" id="add-ingredient" />
-            <input class="btn btn-danger btn-sm" th:type="button" value="Remove Ingredient" id="remove-ing-button" />
+           <!-- <input class="btn btn-danger btn-sm" th:type="button" value="Remove Ingredient" id="remove-ing-button" />-->
         </div>
 
         <div class="form-check">
@@ -87,9 +88,9 @@
             </div>
 
         </div>
-    <div align="right">
-       <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="add-Instruction" />
-    </div>
+<!--    <div align="right">-->
+<!--       <input class="btn btn-primary btn-sm" th:type="button" value="Add Instructions" id="add-Instruction" />-->
+<!--    </div>-->
 
     <div class="form-check" id="notes">
         <label class="form-check-label" th:for="notes">Notes:</label>

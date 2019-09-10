@@ -14,7 +14,7 @@ public class Recipe {
     private int id;
 
     @NotNull(message = "Please give your recipe a title!")
-    @Size(min = 3)
+    @Size(min = 3, message = "Name must be at least 3 characters")
     private String name;
 
 
@@ -28,6 +28,7 @@ public class Recipe {
 
     private String notes;
 
+    @NotNull(message = "Recipe must have a category")
     @ManyToOne
     private Category category;
 

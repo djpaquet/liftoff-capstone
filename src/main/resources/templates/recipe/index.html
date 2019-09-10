@@ -13,7 +13,9 @@
         <div>
             <h3 class="card-header">Recipe Collection</h3>
         </div>
-
+        <div>
+            <p th:unless="${categories} and ${categories.size()}">No recipes created yet!</p>
+        </div>
         <div class="form-group">
             <ul>
                 <li th:each = "category : ${categories}">

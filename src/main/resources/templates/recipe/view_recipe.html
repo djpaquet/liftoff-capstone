@@ -22,7 +22,7 @@
     </div>
 
     <div class="card-body">
-        <ul class="list-inline" th:each="ingredient : *{recipe.ingredients}">
+        <ul class="list-inline" th:each="ingredient : ${recipe.ingredients}">
 
             <li class="list-inline-item" th:text="${ingredient.ingredientName}"></li>
             <li class="list-inline-item" th:text="${ingredient.ingredientAmount}"></li>
@@ -34,9 +34,9 @@
 
     </div>
     <div class="card-body">
-        <ol th:each="instruction : ${recipe.instructions}">
+        <ul th:each="instruction : ${recipe.instructions}">
             <li th:text="${instruction.step}"></li>
-        </ol>
+        </ul>
     </div>
 
     <div class="card-body">

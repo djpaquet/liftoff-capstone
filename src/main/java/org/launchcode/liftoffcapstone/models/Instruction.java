@@ -10,6 +10,9 @@ public class Instruction {
     @GeneratedValue
     private int id;
 
+    @Version
+    private int version;
+
     private String step;
 
     @ManyToOne
@@ -24,6 +27,14 @@ public class Instruction {
 
     public int getId() {
         return id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public String getStep() {

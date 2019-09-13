@@ -14,10 +14,12 @@
 
 <h2 th:text="'Edit Recipe ' + ${recipe.name}"></h2>
 
-<form method="post" object="${recipe}" action="/recipe/edit">
+<form method="post" object="${recipe}">
     <fieldset class="form-group" style="max_width: 200px;">
+        <input type="hidden" th:value="*{recipeId}"  />
+        <input type="hidden" th:field="*{recipe.version}" />
         <div class="form-check">
-            <label class="form-check-label" th:for="name">Name</label>
+            <label class="form-check-label">Name</label>
             <input id="name" class="form-control" th:type="text" th:field="${recipe.name}" name="name" />
             <span th:error="*{name}" class="errors"></span>
         </div>
@@ -51,21 +53,22 @@
             <h3>Ingredients</h3>
             <div class="row item" id="ingredient-list" th:each="ingredient : *{ingredients}">
                 <div class="col">
-                    <input class="form-control" type="hidden"  th:field="*{ingredients[__${ingredientStat.index}__].id}"  />
-                    <input class="form-control" th:type="text" th:field="*{ingredients[__${ingredientStat.index}__].ingredientName}" placeholder="Name" name="ingredientName"/>
+                    <input class="form-control" type="hidden"  th:value="*{ingredients[__${ingredientStat.index}__].id}"  />
+                    <input class="form-control" type="hidden" th:value="*{ingredients[__${ingredientStat.index}__].version}" />
+                    <input class="form-control" th:type="text" th:field="*{recipe.ingredients[__${ingredientStat.index}__].ingredientName}" placeholder="Name" name="ingredientName"/>
                 </div>
                 <div class="col-sm-2">
-                    <input id="ingredientAmount" class="form-control" th:type="text"   th:field="*{ingredients[__${ingredientStat.index}__].ingredientAmount}" name="ingredientAmount" />
+                    <input id="ingredientAmount" class="form-control" th:type="text"   th:field="*{recipe.ingredients[__${ingredientStat.index}__].ingredientAmount}" name="ingredientAmount" />
                 </div>
                 <div class="col">
-                    <select class="custom-select"  th:for="measurementUnit" th:field="*{ingredients[__${ingredientStat.index}__].measurementUnit}">
+                    <select class="custom-select"  th:for="measurementUnit" th:field="*{recipe.ingredients[__${ingredientStat.index}__].measurementUnit}">
                         <option  th:each="measurementUnit : ${T(org.launchcode.liftoffcapstone.models.MeasurementUnit).values()}"
                                  th:text="${measurementUnit.name}"
                                  th:value="${measurementUnit}"></option>
                     </select>
                 </div>
                 <div class="col">
-                    <input id="ingredientDescription" class="form-control" th:type="text"  th:field="*{ingredients[__${ingredientStat.index}__].ingredientDescription}" placeholder="Description" name="ingredientDescription" />
+                    <input id="ingredientDescription" class="form-control" th:type="text"  th:field="*{recipe.ingredients[__${ingredientStat.index}__].ingredientDescription}" placeholder="Description" name="ingredientDescription" />
                 </div>
             </div>
 
@@ -79,8 +82,10 @@
             <h3  class="form-check-label" th:for="instructions">Instructions</h3>
 
             <div id="instruction-area" th:each="instruction : *{instructions}">
+                <input class="form-control" type="hidden" th:field="${recipe.instructions[__${instructionStat.index}__].id}" />
+                <input class="form-control" type="hidden" th:field="${recipe.instructions[__${instructionStat.index}__].version}" />
                 <div>
-                    <input class="form-control" id="step" th:type="text" th:field="${instructions[__${instructionStat.index}__].step}" name="step"/>
+                    <input class="form-control" id="step" th:type="text" th:field="${recipe.instructions[__${instructionStat.index}__].step}" name="step"/>
                 </div>
             </div>
 
@@ -95,10 +100,16 @@
         </div>
     </fieldset>
 
-    <input type="hidden" th:value="*{recipeId}" name="recipeId" />
     <input type="submit" value="Edit Recipe"/>
 </form>
 
 
 </body>
+
+<script th:src="@{https://code.jquery.com/jquery-3.4.1.js}"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous" ></script>
+<script th:src="@{/js/custom.js}" type="text/javascript"></script>
+
+
 </html>

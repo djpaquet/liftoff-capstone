@@ -1,7 +1,9 @@
 package org.launchcode.liftoffcapstone.Controllers;
 
+
 import org.launchcode.liftoffcapstone.models.*;
 import org.launchcode.liftoffcapstone.models.data.InstructionDoa;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,14 +68,9 @@ public class RecipeController {
             model.addAttribute("title", "Add New Recipe");
             model.addAttribute("categories", categoryDao.findAll());
             model.addAttribute("measurementUnit", MeasurementUnit.values());
+            model.addAttribute("errors", errors);
             return "recipe/add";
-        } else if(recipeDao.findByName(recipe.getName())!=null){
-            model.addAttribute("error", "Recipe with that name already exists");
-            model.addAttribute("categories", categoryDao.findAll());
-            model.addAttribute("measurementUnit", MeasurementUnit.values());
-            model.addAttribute("title", "Add New Recipe");
-            return "recipe/add";
-        }else {
+        } else {
             createRecipe(recipe);
             recipe.setCategory(cat);
             recipeDao.save(recipe);
@@ -87,19 +84,24 @@ public class RecipeController {
 
         Recipe recipe = recipeDao.findOne(recipeId);
 
+
         model.addAttribute("recipe", recipe);
         model.addAttribute("title", recipe.getName());
         return "recipe/view_recipe";
 
     }
 
+
     @RequestMapping(value = "edit/{recipeId}", method = RequestMethod.GET)
     public String displayEditRecipe(Model model, @PathVariable int recipeId){
 
         Recipe recipe = recipeDao.findOne(recipeId);
-
+        recipe.getId();
+        recipe.getVersion();
 
         model.addAttribute("recipe", recipe);
+        model.addAttribute("ingredients", recipe.getIngredients());
+        model.addAttribute("instructions", recipe.getInstructions());
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("measurementUnit", MeasurementUnit.values());
         return "recipe/edit";
@@ -107,21 +109,24 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "edit/{recipeId}", method = RequestMethod.POST)
-    public String processEditRecipe(Model model, @PathVariable int recipeId, @ModelAttribute @Valid Recipe recipe, Errors errors){
+    public String processEditRecipe(@PathVariable int recipeId, @ModelAttribute @Valid Recipe recipe,
+                                    BindingResult result, @RequestParam int categoryId, Model model){
 
-        recipe = recipeDao.findOne(recipeId);
-        createRecipe(recipe);
 
-        if(errors.hasErrors()){
+
+        Category cat = categoryDao.findOne(categoryId);
+
+        if(result.hasErrors()){
             model.addAttribute("recipe", recipe);
+            model.addAttribute("categories", categoryDao.findAll());
             model.addAttribute("measurementUnit", MeasurementUnit.values());
             return "recipe/edit";
         }
 
-
-
+        createRecipe(recipe);
+        recipe.setCategory(cat);
         recipeDao.save(recipe);
-        return "redirect:/recipe/view_recipe/" + recipe.getId();
+        return "redirect:/recipe/view_recipe/" + recipeId;
     }
 
     @RequestMapping(value = "remove", method = RequestMethod.GET)

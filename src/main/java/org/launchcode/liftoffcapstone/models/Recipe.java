@@ -13,8 +13,11 @@ public class Recipe {
     @GeneratedValue
     private int id;
 
+    @Version
+    private int version;
+
     @NotNull(message = "Please give your recipe a title!")
-    @Size(min = 3, message = "Name must be at least 3 characters")
+    @Size(min = 3)
     private String name;
 
 
@@ -28,7 +31,6 @@ public class Recipe {
 
     private String notes;
 
-    @NotNull(message = "Recipe must have a category")
     @ManyToOne
     private Category category;
 
@@ -51,6 +53,14 @@ public class Recipe {
 
     public int getId() {
         return id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public List<Ingredient> getIngredients() {

@@ -10,6 +10,9 @@ public class Ingredient {
     @GeneratedValue
     private int id;
 
+    @Version
+    private int version;
+
     private String ingredientName;
 
     private int ingredientAmount;
@@ -36,6 +39,14 @@ public class Ingredient {
 
     public int getId() {
         return id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public String getIngredientName() {

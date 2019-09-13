@@ -109,12 +109,11 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "edit/{recipeId}", method = RequestMethod.POST)
-    public String processEditRecipe(@PathVariable int recipeId, @ModelAttribute @Valid Recipe recipe,
+    public String processEditRecipe(@PathVariable int recipeId, String name, int yield, String notes, @ModelAttribute @Valid Recipe recipe,
                                     BindingResult result, @RequestParam int categoryId, Model model){
 
-
-
         Category cat = categoryDao.findOne(categoryId);
+        recipe = recipeDao.findOne(recipeId);
 
         if(result.hasErrors()){
             model.addAttribute("recipe", recipe);
@@ -123,6 +122,9 @@ public class RecipeController {
             return "recipe/edit";
         }
 
+        recipe.setName(name);
+        recipe.setYield(yield);
+        recipe.setNotes(notes);
         createRecipe(recipe);
         recipe.setCategory(cat);
         recipeDao.save(recipe);

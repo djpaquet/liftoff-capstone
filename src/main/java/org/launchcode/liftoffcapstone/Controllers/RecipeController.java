@@ -13,6 +13,8 @@ import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -39,6 +41,7 @@ public class RecipeController {
         model.addAttribute("recipes", recipeDao.findAll());
         return "recipe/index";
     }
+
 
     @RequestMapping(value= "add", method = RequestMethod.GET)
     public String add(Model model){
@@ -99,11 +102,14 @@ public class RecipeController {
         recipe.getId();
         recipe.getVersion();
 
+
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredients", recipe.getIngredients());
         model.addAttribute("instructions", recipe.getInstructions());
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("measurementUnit", MeasurementUnit.values());
+
+
         return "recipe/edit";
 
     }

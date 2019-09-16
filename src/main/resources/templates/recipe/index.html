@@ -36,6 +36,10 @@
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
+            <div th:if="${searchResult != null and !searchResult.isEmpty()} "></div>
+            <li th:each="recipe : ${recipes}" >
+                <a th:href="'/recipe/view_recipe/' + ${recipe.id}" th:text="${recipe.name}">name</a>
+            </li>
         </div>
     </div>
 

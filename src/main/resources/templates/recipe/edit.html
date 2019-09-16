@@ -52,9 +52,9 @@
         <div class="form-check">
             <h3>Ingredients</h3>
             <div class="row item" id="ingredient-list" th:each="ingredient : *{ingredients}">
+                <input class="form-control" type="hidden"  th:value="*{ingredients[__${ingredientStat.index}__].id}"  />
+                <input class="form-control" type="hidden" th:value="*{ingredients[__${ingredientStat.index}__].version}" />
                 <div class="col">
-                    <input class="form-control" type="hidden"  th:value="*{ingredients[__${ingredientStat.index}__].id}"  />
-                    <input class="form-control" type="hidden" th:value="*{ingredients[__${ingredientStat.index}__].version}" />
                     <input class="form-control" th:type="text" th:field="*{recipe.ingredients[__${ingredientStat.index}__].ingredientName}" placeholder="Name" name="ingredientName"/>
                 </div>
                 <div class="col-sm-2">

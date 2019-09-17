@@ -2,19 +2,14 @@ package org.launchcode.liftoffcapstone.Controllers;
 
 
 import org.launchcode.liftoffcapstone.models.*;
-import org.launchcode.liftoffcapstone.models.data.InstructionDoa;
+import org.launchcode.liftoffcapstone.models.data.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.launchcode.liftoffcapstone.models.data.CategoryDao;
-import org.launchcode.liftoffcapstone.models.data.IngredientsDao;
-import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Controller
@@ -36,11 +31,15 @@ public class RecipeController {
     private InstructionDoa instructionDoa;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model){
+    public String index(@RequestParam(value = "searchTerm", required = false) String searchTerm, Model model){
+
+
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("recipes", recipeDao.findAll());
+        model.addAttribute("searchResult", recipeDao.findByNameIgnoreCase(searchTerm));
         return "recipe/index";
     }
+
 
 
     @RequestMapping(value= "add", method = RequestMethod.GET)

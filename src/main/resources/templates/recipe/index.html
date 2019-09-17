@@ -31,15 +31,19 @@
             <div class="card-header">Search</div>
             <div class="card-body">
                 <h4 class="card-title">Search all recipes!</h4>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" />
+                <form class="form-inline my-2 my-lg-0" th:object="${recipe}" th:action="@{recipe}">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="searchTerm" id="searchTerm" th:value="${searchResult}"/>
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
-            <div th:if="${searchResult != null and !searchResult.isEmpty()} "></div>
-            <li th:each="recipe : ${recipes}" >
-                <a th:href="'/recipe/view_recipe/' + ${recipe.id}" th:text="${recipe.name}">name</a>
-            </li>
+            <div class="form-group">
+                <ul >
+                    <li  th:each="recipe : ${searchResult}">
+                        <a th:href="'/recipe/view_recipe/' + ${recipe.id}" th:text="${recipe.name}">name</a>
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </div>
 

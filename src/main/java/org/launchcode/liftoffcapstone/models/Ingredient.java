@@ -15,7 +15,7 @@ public class Ingredient {
 
     private String ingredientName;
 
-    private Integer ingredientAmount;
+    private double ingredientAmount;
 
     @Enumerated(EnumType.STRING)
     private MeasurementUnit measurementUnit;
@@ -28,7 +28,7 @@ public class Ingredient {
     private Recipe recipe;
 
 
-    public Ingredient(String ingredientName, int ingredientAmount, MeasurementUnit measurementUnit, String ingredientDescription){
+    public Ingredient(String ingredientName, double ingredientAmount, MeasurementUnit measurementUnit, String ingredientDescription){
         this.ingredientName = ingredientName;
         this.ingredientAmount = ingredientAmount;
         this.measurementUnit = measurementUnit;
@@ -57,11 +57,11 @@ public class Ingredient {
         this.ingredientName = ingredientName;
     }
 
-    public Integer getIngredientAmount() {
+    public double getIngredientAmount() {
         return ingredientAmount;
     }
 
-    public void setIngredientAmount(int ingredientAmount) {
+    public void setIngredientAmount(double ingredientAmount) {
         this.ingredientAmount = ingredientAmount;
     }
 

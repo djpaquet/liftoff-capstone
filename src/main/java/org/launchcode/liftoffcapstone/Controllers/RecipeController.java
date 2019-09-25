@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -100,7 +101,7 @@ public class RecipeController {
         Recipe recipe = recipeDao.findOne(recipeId);
         recipe.getId();
         recipe.getVersion();
-
+        accessRecipe(recipe);
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredients", recipe.getIngredients());
@@ -115,10 +116,11 @@ public class RecipeController {
 
     @RequestMapping(value = "edit/{recipeId}", method = RequestMethod.POST)
     public String processEditRecipe(@PathVariable int recipeId, String name, int yield, String notes, @ModelAttribute @Valid Recipe recipe,
-                                    BindingResult result, @RequestParam int categoryId, Model model){
+                                    BindingResult result, @RequestParam int categoryId,Model model){
 
         Category cat = categoryDao.findOne(categoryId);
-        recipe = recipeDao.findOne(recipeId);
+        Recipe origRecipe = recipeDao.findOne(recipeId);
+        accessRecipe(origRecipe);
 
         if(result.hasErrors()){
             model.addAttribute("recipe", recipe);
@@ -127,12 +129,14 @@ public class RecipeController {
             return "recipe/edit";
         }
 
-        recipe.setName(name);
-        recipe.setYield(yield);
-        recipe.setNotes(notes);
-        createRecipe(recipe);
-        recipe.setCategory(cat);
-        recipeDao.save(recipe);
+        origRecipe.setIngredients(recipe.getIngredients());
+        origRecipe.setInstructions(recipe.getInstructions());
+        createRecipe(origRecipe);
+        origRecipe.setName(name);
+        origRecipe.setYield(yield);
+        origRecipe.setNotes(notes);
+        origRecipe.setCategory(cat);
+        recipeDao.save(origRecipe);
         return "redirect:/recipe/view_recipe/" + recipeId;
     }
 
@@ -162,6 +166,13 @@ public class RecipeController {
 
         }
 
+        private void accessRecipe(Recipe recipe){
+            recipe.getIngredients().forEach(ingredient -> ingredient.getId());
+            recipe.getIngredients().forEach(ingredient -> ingredient.getVersion());
+            recipe.getInstructions().forEach(instruction -> instruction.getId());
+            recipe.getInstructions().forEach(instruction -> instruction.getVersion());
+
+        }
 
 
 }

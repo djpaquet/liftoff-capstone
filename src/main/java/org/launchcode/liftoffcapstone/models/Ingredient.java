@@ -1,7 +1,9 @@
 package org.launchcode.liftoffcapstone.models;
 
 import javax.persistence.*;
-;import static org.launchcode.liftoffcapstone.models.MeasurementUnit.TSP;
+;import java.util.Objects;
+
+import static org.launchcode.liftoffcapstone.models.MeasurementUnit.TSP;
 
 @Entity
 public class Ingredient {
@@ -39,6 +41,10 @@ public class Ingredient {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVersion() {
@@ -90,4 +96,21 @@ public class Ingredient {
         this.ingredientDescription = ingredientDescription;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredient)) return false;
+        Ingredient that = (Ingredient) o;
+        return getId() == that.getId() &&
+                Double.compare(that.getIngredientAmount(), getIngredientAmount()) == 0 &&
+                Objects.equals(getIngredientName(), that.getIngredientName()) &&
+                getMeasurementUnit() == that.getMeasurementUnit() &&
+                Objects.equals(getIngredientDescription(), that.getIngredientDescription()) &&
+                Objects.equals(getRecipe(), that.getRecipe());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getIngredientName(), getIngredientAmount(), getMeasurementUnit(), getIngredientDescription(), getRecipe());
+    }
 }

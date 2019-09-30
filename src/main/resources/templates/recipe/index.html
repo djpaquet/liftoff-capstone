@@ -32,7 +32,7 @@
             <div class="card-body">
                 <h4 class="card-title">Search all recipes!</h4>
                 <form class="form-inline my-2 my-lg-0" th:object="${recipe}" th:action="@{recipe}">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="searchTerm" id="searchTerm" th:value="${searchResult}"/>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="searchTerm" id="searchTerm" />
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>

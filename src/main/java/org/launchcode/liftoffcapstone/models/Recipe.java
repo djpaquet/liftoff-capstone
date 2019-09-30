@@ -1,6 +1,7 @@
 package org.launchcode.liftoffcapstone.models;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Recipe {
     @Enumerated(EnumType.STRING)
     private MeasurementUnit yieldType;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Instruction> instructions;
 
     private String notes;
@@ -34,7 +35,7 @@ public class Recipe {
     @ManyToOne
     private Category category;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
     public Recipe(String name, int yield, MeasurementUnit yieldType, String notes) {
@@ -53,6 +54,10 @@ public class Recipe {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVersion() {
@@ -80,9 +85,7 @@ public class Recipe {
         ingredients.add(ingredient);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     public String getName() {
         return name;
@@ -140,5 +143,11 @@ public class Recipe {
         this.category = category;
     }
 
+
+
+    public void removeIngredient(Ingredient ingredient) {
+        ingredients.remove(ingredient);
+        ingredient.setRecipe(null);
+    }
 
 }

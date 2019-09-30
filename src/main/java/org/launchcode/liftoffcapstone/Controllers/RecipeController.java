@@ -2,13 +2,17 @@ package org.launchcode.liftoffcapstone.Controllers;
 
 
 import org.launchcode.liftoffcapstone.models.*;
-import org.launchcode.liftoffcapstone.models.data.*;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.launchcode.liftoffcapstone.models.data.CategoryDao;
+import org.launchcode.liftoffcapstone.models.data.IngredientsDao;
+import org.launchcode.liftoffcapstone.models.data.InstructionDoa;
+import org.launchcode.liftoffcapstone.models.data.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class RecipeController {
 
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("recipes", recipeDao.findAll());
-        model.addAttribute("searchResult", recipeDao.findByNameIgnoreCase(searchTerm));
+        model.addAttribute("searchResult", recipeDao.findByNameContainingIgnoreCase(searchTerm));
         return "recipe/index";
     }
 
@@ -101,7 +105,7 @@ public class RecipeController {
         Recipe recipe = recipeDao.findOne(recipeId);
         recipe.getId();
         recipe.getVersion();
-        accessRecipe(recipe);
+
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredients", recipe.getIngredients());
@@ -109,8 +113,7 @@ public class RecipeController {
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("measurementUnit", MeasurementUnit.values());
 
-
-        return "recipe/edit";
+        return "recipe/add";
 
     }
 
@@ -120,7 +123,6 @@ public class RecipeController {
 
         Category cat = categoryDao.findOne(categoryId);
         Recipe origRecipe = recipeDao.findOne(recipeId);
-        accessRecipe(origRecipe);
 
         if(result.hasErrors()){
             model.addAttribute("recipe", recipe);
@@ -129,8 +131,26 @@ public class RecipeController {
             return "recipe/edit";
         }
 
-        origRecipe.setIngredients(recipe.getIngredients());
-        origRecipe.setInstructions(recipe.getInstructions());
+        List<Ingredient> newIngredients = origRecipe.getIngredients();
+        newIngredients.clear();
+
+        for(Ingredient ingredient : recipe.getIngredients()){
+            newIngredients.add(ingredient);
+            ingredient.setRecipe(origRecipe);
+            ingredientsDao.save(ingredient);
+        }
+
+
+        List<Instruction> newInstructions = origRecipe.getInstructions();
+        newInstructions.clear();
+
+        for(Instruction instruction : recipe.getInstructions()){
+            newInstructions.add(instruction);
+            instruction.setRecipe(origRecipe);
+            instructionDoa.save(instruction);
+        }
+
+
         createRecipe(origRecipe);
         origRecipe.setName(name);
         origRecipe.setYield(yield);
@@ -166,13 +186,6 @@ public class RecipeController {
 
         }
 
-        private void accessRecipe(Recipe recipe){
-            recipe.getIngredients().forEach(ingredient -> ingredient.getId());
-            recipe.getIngredients().forEach(ingredient -> ingredient.getVersion());
-            recipe.getInstructions().forEach(instruction -> instruction.getId());
-            recipe.getInstructions().forEach(instruction -> instruction.getVersion());
-
-        }
-
 
 }
+
